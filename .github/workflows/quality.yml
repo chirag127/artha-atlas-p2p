@@ -1,0 +1,36 @@
+name: Quality & Testing CI Gates
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-validate:
+    name: Unit Tests, Content Validation & Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Financial Calculation Tests
+        run: npm run test:unit
+
+      - name: Validate 100 Published Articles and Sources
+        run: npm run validate:content
+
+      - name: Run Production Build and Search Indexer
+        run: node scripts/build.mjs

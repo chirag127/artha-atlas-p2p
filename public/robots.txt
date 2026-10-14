@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chirag127.github.io/artha-atlas-p2p/sitemap-index.xml

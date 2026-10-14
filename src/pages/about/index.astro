@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatUrl } from '../../lib/urls';
+---
+
+<BaseLayout
+  title="About the Publication & Author — Chirag Singhal | ArthaAtlas P2P"
+  description="Learn about the author Chirag Singhal, the ArthaAtlas India brand family, our independent educational charter, and how to support unsponsored financial research."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-10 text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        Author & Mission
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        About ArthaAtlas P2P
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        An independent research initiative bringing quantitative transparency, credit risk analysis, and regulatory scrutiny to Indian peer-to-peer lending.
+      </p>
+    </div>
+
+    <!-- Author Profile Card -->
+    <div class="p-8 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm mb-12 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-brand-700 to-emerald-500 flex items-center justify-center text-white text-2xl font-black flex-shrink-0 shadow-md">
+        CS
+      </div>
+      <div>
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Chirag Singhal</h2>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold">
+            Author & Lead Researcher
+          </span>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+          Software engineer and independent financial researcher focusing on digital lending infrastructure, credit risk modeling, and Indian retail debt markets. ArthaAtlas P2P was established to bridge the information gap between fintech marketing claims and actual realised lender outcomes.
+        </p>
+
+        <div class="flex flex-wrap gap-4 text-xs font-semibold">
+          <a href="mailto:chirag@oriz.in" class="text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+            ✉️ chirag@oriz.in
+          </a>
+          <a href="https://facebook.com/singhal127" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+            🌐 singhal127 (Facebook)
+          </a>
+          <a href="https://github.com/chirag127/artha-atlas-p2p" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+            💻 GitHub Repository
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- The ArthaAtlas India Brand Family -->
+    <div class="prose dark:prose-invert max-w-none text-slate-800 dark:text-slate-200 leading-relaxed mb-12">
+      <h2>The ArthaAtlas India Mission</h2>
+      <p>
+        <strong>ArthaAtlas India</strong> is an independent research imprint committed to building open-source, evidence-based guides on modern Indian personal finance and alternative investments. We focus on areas where retail investors face information asymmetry, opaque fee structures, or complex tax treatments.
+      </p>
+
+      <h2>Independent Editorial Principles</h2>
+      <ul>
+        <li><strong>No Sponsored Endorsements:</strong> We never accept payment, equity, or gifts from financial platforms in exchange for positive reviews or favorable rankings.</li>
+        <li><strong>No Regulatory Affiliation:</strong> ArthaAtlas P2P is an educational publication. We do not possess or claim any regulatory affiliation with the Reserve Bank of India, SEBI, or the Ministry of Finance.</li>
+        <li><strong>Open-Source Analytics:</strong> All financial calculators run client-side in the browser using transparent, documented TypeScript formulas with public unit test suites.</li>
+      </ul>
+
+      <h2>Support Unsponsored Research</h2>
+      <p>
+        Building and maintaining a 100-article peer-reviewed research platform with interactive financial engines requires thousands of hours of primary legal analysis, coding, and verification. If you find our work valuable, you can support us directly via Buy Me A Coffee:
+      </p>
+
+      <div class="not-prose my-6">
+        <a
+          href="https://buymeacoffee.com/chirag127"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all shadow-sm"
+        >
+          ☕ Support Chirag on Buy Me A Coffee &rarr;
+        </a>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

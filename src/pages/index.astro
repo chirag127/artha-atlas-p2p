@@ -1,0 +1,326 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LoanAmortisationCalculator from '../components/calculators/LoanAmortisationCalculator';
+import RealisedYieldCalculator from '../components/calculators/RealisedYieldCalculator';
+import InvestmentComparisonCalculator from '../components/calculators/InvestmentComparisonCalculator';
+import { CONTENT_SERIES } from '../data/taxonomy';
+import { formatUrl } from '../lib/urls';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+// Pick 6 flagship articles across different series
+const featuredArticles = allArticles.slice(0, 6);
+---
+
+<BaseLayout
+  title="ArthaAtlas P2P — Beyond Interest Rates. Understand Credit Risk."
+  description="India's definitive independent research platform on peer-to-peer lending: NBFC-P2P regulations, credit risk underwriting, realised portfolio returns, default mechanics, and taxation."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-16 sm:py-24 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-100/60 via-slate-50 to-white dark:from-navy-900/60 dark:via-navy-950 dark:to-navy-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      
+      <!-- Badges -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-6 shadow-sm">
+        <span>ArthaAtlas India</span>
+        <span>&bull;</span>
+        <span>100 Research Modules Live</span>
+        <span>&bull;</span>
+        <span>August 2024 RBI Review</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight sm:leading-tight">
+        Beyond Interest Rates.<br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-emerald-600 to-teal-500">
+          Understand Credit Risk.
+        </span>
+      </h1>
+
+      <!-- Tagline & Description -->
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-4 leading-relaxed font-normal">
+        Understand Indian P2P lending from first principles. Measure true realised returns after fees and defaults, audit the Asymmetric Tax Trap, and navigate the RBI regulatory framework.
+      </p>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-8 text-xs sm:text-sm font-bold">
+        <a
+          href={formatUrl('/articles')}
+          class="px-6 py-3 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white transition-all shadow-sm hover:shadow-md"
+        >
+          Explore 100 Researched Articles &rarr;
+        </a>
+        <a
+          href={formatUrl('/calculators')}
+          class="px-6 py-3 rounded-2xl bg-white dark:bg-navy-850 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm"
+        >
+          Open Financial Calculators
+        </a>
+        <a
+          href={formatUrl('/regulation')}
+          class="px-6 py-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 transition-all shadow-sm"
+        >
+          RBI Regulatory Hub
+        </a>
+      </div>
+
+      <!-- Quick Trust Indicators -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800 text-left">
+        <div>
+          <div class="text-2xl font-black font-mono text-slate-900 dark:text-white">100</div>
+          <div class="text-xs text-slate-500">Peer-Reviewed Modules</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400">310</div>
+          <div class="text-xs text-slate-500">Curriculum Topics</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black font-mono text-amber-600 dark:text-amber-400">₹50,000</div>
+          <div class="text-xs text-slate-500">RBI Single Borrower Cap</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black font-mono text-brand-600 dark:text-brand-400">0%</div>
+          <div class="text-xs text-slate-500">Sponsorship Bias</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- P2P Loan Lifecycle Section -->
+  <section class="py-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-navy-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+          Operational Mechanics
+        </h2>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          The Regulated P2P Loan Lifecycle
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2">
+          From digital onboarding and escrow disbursal to monthly automated NACH debits and delinquency management.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-xs">
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-bold flex items-center justify-center mb-3">1</div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">Onboarding & CKYC</h4>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Borrower completes Aadhaar e-KYC, PAN validation, and penny-drop bank account verification.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 font-bold flex items-center justify-center mb-3">2</div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">Credit Underwriting</h4>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Bureau pull (CIBIL/Experian), Account Aggregator bank statement analytics, FOIR and DTI calculations.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 font-bold flex items-center justify-center mb-3">3</div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">Escrow Disbursal</h4>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Funds flow from trustee disbursal escrow directly to borrower bank account within T+1 day.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-bold flex items-center justify-center mb-3">4</div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">Monthly NACH Debits</h4>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Automated e-mandates collect reducing EMIs, separating return of capital from taxable interest.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300 font-bold flex items-center justify-center mb-3">5</div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">Delinquency or NOC</h4>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            NOC issued upon completion; delinquent loans migrate to SMA buckets and legal recovery.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Calculator Showcase: Realised Yield Waterfall -->
+  <section class="py-16 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">
+          Interactive Simulation
+        </h2>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          Gross vs Realised Yield Waterfall
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2">
+          Adjust contractual rates, platform fees, default probabilities, and cash drag to calculate your true net return.
+        </p>
+      </div>
+
+      <RealisedYieldCalculator client:load />
+
+      <div class="text-center mt-6">
+        <a href={formatUrl('/calculators')} class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline">
+          View all 5 calculators (XIRR, Amortisation, Stress ECL, Tax & Concentration) &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 Thematic Series Grid -->
+  <section class="py-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-navy-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+            Taxonomy Architecture
+          </h2>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            10 Structured Research Series
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+            10 articles per series, providing 100 deep-dive educational modules.
+          </p>
+        </div>
+        <a href={formatUrl('/series')} class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline">
+          Browse all series &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {CONTENT_SERIES.map((series, idx) => (
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 transition-all flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">Track {idx + 1}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                  10 Modules
+                </span>
+              </div>
+              <h4 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors mb-2">
+                <a href={formatUrl(`/series/${series.slug}`)}>
+                  {series.title}
+                </a>
+              </h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                {series.description}
+              </p>
+            </div>
+            <a
+              href={formatUrl(`/series/${series.slug}`)}
+              class="text-xs font-bold text-brand-600 dark:text-brand-400 inline-flex items-center gap-1 hover:translate-x-0.5 transition-transform"
+            >
+              Explore Track &rarr;
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Research Articles Grid -->
+  <section class="py-16 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+            Curated Reading
+          </h2>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Flagship Research Modules
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+            Essential articles covering regulations, yield calculations, and the Asymmetric Tax Trap.
+          </p>
+        </div>
+        <a href={formatUrl('/articles')} class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline">
+          View all 100 articles &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {featuredArticles.map((art) => {
+          const cleanSlug = art.id.replace(/\.(md|mdx)$/, '');
+          return (
+            <div class="p-6 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 transition-all flex flex-col justify-between group shadow-sm">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-2">
+                  <span class="font-bold text-brand-600 dark:text-brand-400 uppercase">{art.data.category}</span>
+                  <span>{art.data.readingTimeMinutes} min</span>
+                </div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug mb-2">
+                  <a href={formatUrl(`/articles/${cleanSlug}`)}>
+                    {art.data.title}
+                  </a>
+                </h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                  {art.data.description}
+                </p>
+              </div>
+              <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold">
+                <a href={formatUrl(`/articles/${cleanSlug}`)} class="text-brand-600 dark:text-brand-400">
+                  Read Module &rarr;
+                </a>
+                <span class="text-[10px] text-slate-400 font-mono">Verified Research</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-Asset Comparison Showcase -->
+  <section class="py-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-navy-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+          Comparative Analysis
+        </h2>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          P2P Lending vs Bank FDs & Fixed Income
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2">
+          Compare risk, principal protection, liquidity, and post-tax returns across Indian asset classes.
+        </p>
+      </div>
+
+      <InvestmentComparisonCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Author & Educational Charter Section -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-700 to-emerald-500 flex items-center justify-center text-white text-xl font-black mx-auto mb-4 shadow-sm">
+        CS
+      </div>
+      <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">
+        Built by Chirag Singhal
+      </h3>
+      <p class="text-xs text-brand-600 dark:text-brand-400 font-bold uppercase tracking-wider mt-1">
+        Independent Research & Developer
+      </p>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto mt-3 leading-relaxed">
+        ArthaAtlas P2P is an unsponsored, independent educational resource. We accept zero platform advertising or referral commissions.
+      </p>
+      <div class="flex items-center justify-center gap-4 mt-6 text-xs font-bold">
+        <a href="mailto:chirag@oriz.in" class="text-brand-600 dark:text-brand-400 hover:underline">
+          chirag@oriz.in
+        </a>
+        <span>&bull;</span>
+        <a href="https://facebook.com/singhal127" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline">
+          singhal127
+        </a>
+        <span>&bull;</span>
+        <a href="https://buymeacoffee.com/chirag127" target="_blank" rel="noopener" class="text-amber-600 dark:text-amber-400 hover:underline">
+          ☕ Buy Me A Coffee
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import P2PTaxCalculator from '../../components/calculators/P2PTaxCalculator';
+import { formatUrl } from '../../lib/urls';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+const taxArticles = allArticles
+  .filter((a) => a.data.series === 'taxation')
+  .sort((a, b) => a.data.seriesOrder - b.data.seriesOrder);
+---
+
+<BaseLayout
+  title="P2P Lending Taxation in India — Section 56, 57 & The Asymmetric Tax Trap"
+  description="Comprehensive tax guide for Indian peer-to-peer lenders: Section 56(2) Income from Other Sources, Section 57(iii) fee deductions, and why principal defaults are non-deductible."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+          Indian Income Tax Act, 1961
+        </span>
+        <span class="text-xs text-slate-500">AY 2025-26 / FY 2024-25 Analysis</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        P2P Taxation & The Asymmetric Tax Trap
+      </h1>
+      <p class="text-base text-slate-600 dark:text-slate-300 mt-2 max-w-3xl leading-relaxed">
+        Taxation is the single most misunderstood element of peer-to-peer lending in India. Because interest is taxed under &ldquo;Income from Other Sources&rdquo; while principal defaults cannot be written off, retail lenders routinely face the Asymmetric Tax Trap: paying tax on gross income despite suffering an overall economic loss.
+      </p>
+    </div>
+
+    <!-- The Three Pillars of P2P Tax Law Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="p-6 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-2">
+          Pillar 1: Charging Head
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+          Section 56(2) — IFOS
+        </h3>
+        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          P2P interest is added to total gross income under &ldquo;Income from Other Sources&rdquo; and taxed at your applicable individual marginal slab rate (up to 30% + 4% cess + surcharge).
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-2">
+          Pillar 2: Allowed Deductions
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+          Section 57(iii) — Expenses
+        </h3>
+        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          Expenses incurred wholly and exclusively for making or earning interest—such as platform onboarding fees, monthly servicing cuts, and collection commissions—are fully deductible from gross interest.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white dark:bg-navy-900 border border-rose-200 dark:border-rose-900/60 shadow-sm bg-rose-50/20 dark:bg-rose-950/10">
+        <div class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-2">
+          Pillar 3: The Tax Trap
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+          Section 36(1)(vii) — Barred
+        </h3>
+        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          Bad debt deductions are legally restricted to business income (PGBP). Retail lenders filing under Section 56 cannot deduct defaulted loan principal from their taxable interest.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive P2P Tax Calculator Island -->
+    <div class="mb-14">
+      <P2PTaxCalculator client:load />
+    </div>
+
+    <!-- Taxation Series Modules -->
+    <div>
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+            10 Researched Taxation Modules
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Deep legal analysis covering advance tax schedules, TDS rules, Form 26AS/AIS reconciliation, and state moneylending acts.
+          </p>
+        </div>
+        <a href={formatUrl('/series/taxation')} class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline">
+          View Complete Series &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {taxArticles.map((art) => (
+          <div class="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 transition-all flex flex-col justify-between group">
+            <div>
+              <div class="text-[11px] font-mono font-bold text-rose-600 dark:text-rose-400 mb-1">
+                Module #{art.data.seriesOrder} &bull; {art.data.readingTimeMinutes} min read
+              </div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug">
+                <a href={formatUrl(`/articles/${art.id.replace(/\.(md|mdx)$/, '')}`)}>
+                  {art.data.title}
+                </a>
+              </h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                {art.data.description}
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold">
+              <a href={formatUrl(`/articles/${art.id.replace(/\.(md|mdx)$/, '')}`)} class="text-brand-600 dark:text-brand-400">
+                Read Tax Analysis &rarr;
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

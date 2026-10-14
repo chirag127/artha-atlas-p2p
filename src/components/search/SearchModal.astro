@@ -1,0 +1,136 @@
+---
+import { formatUrl } from '../../lib/urls';
+---
+
+<div id="search-modal" class="hidden fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-20">
+  <!-- Backdrop -->
+  <div id="search-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+
+  <!-- Modal Panel -->
+  <div class="relative mx-auto max-w-2xl transform divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden rounded-2xl bg-white dark:bg-navy-900 shadow-2xl ring-1 ring-slate-900/5 transition-all">
+    <div class="relative flex items-center px-4">
+      <span class="text-slate-400 text-lg mr-3">🔍</span>
+      <input
+        id="modal-search-input"
+        type="text"
+        placeholder="Search 100 articles, formulas, tax rules, and regulatory circulars... (ESC to close)"
+        class="h-14 w-full border-0 bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none text-sm font-medium"
+      />
+      <kbd class="hidden sm:inline-block rounded border border-slate-200 dark:border-slate-700 px-2 py-0.5 text-[10px] font-mono text-slate-400">
+        ESC
+      </kbd>
+    </div>
+
+    <!-- Search Results Container -->
+    <div id="modal-results-container" class="max-h-96 overflow-y-auto p-2 space-y-1">
+      <div id="search-placeholder" class="py-12 text-center text-xs text-slate-500 dark:text-slate-400">
+        Type to search across 100 researched modules, financial formulas, and RBI guidelines.
+      </div>
+      <div id="search-results-list" class="space-y-1"></div>
+    </div>
+
+    <div class="px-4 py-2.5 bg-slate-50 dark:bg-slate-850/60 flex items-center justify-between text-[11px] text-slate-500">
+      <span>Powered by Pagefind Static Index</span>
+      <div class="flex items-center gap-3">
+        <span><kbd class="font-mono">↑↓</kbd> navigate</span>
+        <span><kbd class="font-mono">↵</kbd> select</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  let pagefindInstance = null;
+  const modal = document.getElementById('search-modal');
+  const backdrop = document.getElementById('search-backdrop');
+  const input = document.getElementById('modal-search-input');
+  const resultsList = document.getElementById('search-results-list');
+  const placeholder = document.getElementById('search-placeholder');
+
+  async function initPagefind() {
+    if (!pagefindInstance) {
+      try {
+        const basePath = document.querySelector('link[rel="canonical"]')?.getAttribute('href') || '/artha-atlas-p2p/';
+        const urlObj = new URL(basePath, window.location.origin);
+        const subpath = urlObj.pathname.startsWith('/artha-atlas-p2p') ? '/artha-atlas-p2p' : '';
+        pagefindInstance = await import(`${subpath}/pagefind/pagefind.js`);
+        await pagefindInstance.init();
+      } catch (e) {
+        console.warn('Pagefind static index loading in dev/preview mode');
+      }
+    }
+  }
+
+  function openModal() {
+    modal?.classList.remove('hidden');
+    input?.focus();
+    initPagefind();
+  }
+
+  function closeModal() {
+    modal?.classList.add('hidden');
+    if (input) input.value = '';
+    if (resultsList) resultsList.innerHTML = '';
+    if (placeholder) placeholder.classList.remove('hidden');
+  }
+
+  // Global Ctrl+K / Cmd+K listener
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      if (modal?.classList.contains('hidden')) {
+        openModal();
+      } else {
+        closeModal();
+      }
+    }
+    if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+
+  backdrop?.addEventListener('click', closeModal);
+
+  // Live Search Execution
+  let searchTimeout;
+  input?.addEventListener('input', async (e) => {
+    clearTimeout(searchTimeout);
+    const query = e.target.value.trim();
+
+    if (!query) {
+      if (resultsList) resultsList.innerHTML = '';
+      placeholder?.classList.remove('hidden');
+      return;
+    }
+
+    placeholder?.classList.add('hidden');
+
+    searchTimeout = setTimeout(async () => {
+      if (!pagefindInstance) await initPagefind();
+      if (!pagefindInstance) return;
+
+      const search = await pagefindInstance.search(query);
+      const results = await Promise.all(search.results.slice(0, 8).map((r) => r.data()));
+
+      if (resultsList) {
+        if (results.length === 0) {
+          resultsList.innerHTML = `<div class="py-8 text-center text-xs text-slate-500">No results found for "${query}"</div>`;
+        } else {
+          resultsList.innerHTML = results
+            .map(
+              (item) => `
+            <a href="${item.url}" class="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <div class="text-xs font-bold text-slate-900 dark:text-white">${item.meta.title || 'Untitled Module'}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${item.excerpt}</div>
+            </a>
+          `
+            )
+            .join('');
+        }
+      }
+    }, 150);
+  });
+
+  // Export open function to window for header buttons
+  window.openArthaSearch = openModal;
+</script>

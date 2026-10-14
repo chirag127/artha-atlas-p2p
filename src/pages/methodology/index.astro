@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Research Methodology & Quantitative Formulas — ArthaAtlas P2P"
+  description="Detailed mathematical documentation, algorithm specifications, and editorial standards governing ArthaAtlas P2P calculations."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-10 text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        Quantitative Rigour
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        Financial Engine & Research Methodology
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        Transparent documentation of the algorithms, mathematical models, and editorial standards powering our research tools.
+      </p>
+    </div>
+
+    <!-- Section 1: Editorial Charter -->
+    <div class="prose dark:prose-invert max-w-none text-slate-800 dark:text-slate-200 leading-relaxed mb-12">
+      <h2>1. The Independence & No-Endorsement Charter</h2>
+      <p>
+        ArthaAtlas P2P operates under strict editorial rules designed to prevent conflict of interest:
+      </p>
+      <ul>
+        <li><strong>No Affiliate Links:</strong> We do not accept referral fees, kickbacks, or affiliate commissions from any NBFC-P2P platform.</li>
+        <li><strong>No Fabricated Returns:</strong> We never publish synthetic or unsubstantiated return figures. Where platform disclosures are evaluated, they are cited verbatim with source dates.</li>
+        <li><strong>No Guaranteed Claims:</strong> We never market peer-to-peer lending as a guaranteed-return or fixed-deposit equivalent.</li>
+      </ul>
+
+      <h2>2. XIRR Numerical Solver Specification</h2>
+      <p>
+        The Portfolio XIRR engine solves for the annualised discount rate $r$ that satisfies:
+      </p>
+      <div class="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl font-mono text-xs my-4 overflow-x-auto">
+        <code>{"NPV(r) = Σ [ CF_i / (1 + r)^((d_i - d_0) / 365) ] = 0"}</code>
+      </div>
+      <p>
+        Our solver implements a two-stage hybrid numerical method:
+      </p>
+      <ol>
+        <li><strong>Newton-Raphson Iteration:</strong> Computes the first-order derivative of the Net Present Value function with respect to $r$ and iteratively converges within a tolerance of 10<sup>-7</sup>.</li>
+        <li><strong>Bisection Fallback:</strong> If the derivative vanishes (slope ≈ 0) or the solver encounters non-monotonic cash flows, the algorithm switches seamlessly to a bisection search over the interval [-0.999, 10.0] ensuring guaranteed convergence.</li>
+      </ol>
+
+      <h2>3. Expected Credit Loss (ECL) Modeling</h2>
+      <p>
+        Expected Credit Loss is modeled in conformity with standard quantitative credit risk principles:
+      </p>
+      <div class="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl font-mono text-xs my-4 overflow-x-auto">
+        <code>{"ECL = PD × LGD × EAD"}</code>
+      </div>
+      <p>
+        Where:
+      </p>
+      <ul>
+        <li><strong>PD (Probability of Default):</strong> Derived from vintage delinquency curves and bureau score distributions.</li>
+        <li><strong>LGD (Loss Given Default):</strong> Defined as <code>1 - Recovery Rate</code>. On unsecured personal loans in India, LGD typically ranges between 70% and 90%.</li>
+        <li><strong>EAD (Exposure at Default):</strong> The outstanding amortised principal balance at the time of default.</li>
+      </ul>
+
+      <h2>4. Concentration Risk & Herfindahl-Hirschman Index</h2>
+      <p>
+        To expose the &ldquo;Illusion of Diversification,&rdquo; our concentration calculator computes the Herfindahl-Hirschman Index (HHI) and derives the Effective Number of Borrowers (N<sub>eff</sub>):
+      </p>
+      <div class="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl font-mono text-xs my-4 overflow-x-auto">
+        <code>{"HHI = Σ (w_i)^2   ⟹   N_eff = 1 / HHI"}</code>
+      </div>
+      <p>
+        This reveals whether a portfolio of 100 nominal loans is actually behaving as if it only holds 4 or 5 equal-sized exposures.
+      </p>
+    </div>
+
+  </div>
+</BaseLayout>

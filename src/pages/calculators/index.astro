@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LoanAmortisationCalculator from '../../components/calculators/LoanAmortisationCalculator';
+import RealisedYieldCalculator from '../../components/calculators/RealisedYieldCalculator';
+import XirrCalculator from '../../components/calculators/XirrCalculator';
+import CreditLossStressCalculator from '../../components/calculators/CreditLossStressCalculator';
+import P2PTaxCalculator from '../../components/calculators/P2PTaxCalculator';
+import PortfolioConcentrationCalculator from '../../components/calculators/PortfolioConcentrationCalculator';
+import InvestmentComparisonCalculator from '../../components/calculators/InvestmentComparisonCalculator';
+import { formatUrl } from '../../lib/urls';
+---
+
+<BaseLayout
+  title="P2P Financial Calculators & Quantitative Analytics — ArthaAtlas P2P"
+  description="Interactive financial calculation engines for Indian P2P lending: Loan Amortisation, Realised Yield Waterfall, Portfolio XIRR, Default Stress ECL, Section 56/57 Taxation, and HHI Concentration."
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-12 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        Quantitative Financial Tools
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        P2P Lending Risk & Yield Calculation Suite
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        Browser-side, privacy-preserving mathematical engines designed to deconstruct advertised rates, evaluate default haircuts, calculate exact XIRR, and uncover the Asymmetric Tax Trap.
+      </p>
+
+      <!-- Quick Anchor Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+        <a href="#amortisation" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          Loan Amortisation
+        </a>
+        <a href="#yield-waterfall" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          Realised Yield Waterfall
+        </a>
+        <a href="#xirr" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          Portfolio XIRR
+        </a>
+        <a href="#stress-ecl" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          Default & ECL Stress
+        </a>
+        <a href="#taxation" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          P2P Income Tax
+        </a>
+        <a href="#concentration" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          RBI Concentration & HHI
+        </a>
+        <a href="#comparison" class="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-brand-500 hover:text-white transition-colors">
+          Asset Comparison
+        </a>
+      </div>
+    </div>
+
+    <!-- Calculator 1: Loan Amortisation -->
+    <section id="amortisation" class="mb-16 scroll-mt-24">
+      <LoanAmortisationCalculator client:load />
+    </section>
+
+    <!-- Calculator 2: Realised Yield Waterfall -->
+    <section id="yield-waterfall" class="mb-16 scroll-mt-24">
+      <RealisedYieldCalculator client:load />
+    </section>
+
+    <!-- Calculator 3: Portfolio XIRR -->
+    <section id="xirr" class="mb-16 scroll-mt-24">
+      <XirrCalculator client:load />
+    </section>
+
+    <!-- Calculator 4: Credit Loss & Stress Testing -->
+    <section id="stress-ecl" class="mb-16 scroll-mt-24">
+      <CreditLossStressCalculator client:load />
+    </section>
+
+    <!-- Calculator 5: P2P Tax & Asymmetric Tax Trap -->
+    <section id="taxation" class="mb-16 scroll-mt-24">
+      <P2PTaxCalculator client:load />
+    </section>
+
+    <!-- Calculator 6: Concentration & RBI Limits -->
+    <section id="concentration" class="mb-16 scroll-mt-24">
+      <PortfolioConcentrationCalculator client:load />
+    </section>
+
+    <!-- Calculator 7: Cross-Asset Comparison -->
+    <section id="comparison" class="mb-16 scroll-mt-24">
+      <InvestmentComparisonCalculator client:load />
+    </section>
+
+  </div>
+</BaseLayout>

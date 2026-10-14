@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatUrl } from '../../lib/urls';
+import { CONTENT_SERIES } from '../../data/taxonomy';
+
+const articles = await getCollection('articles');
+// Sort by series then order
+articles.sort((a, b) => {
+  if (a.data.series === b.data.series) {
+    return a.data.seriesOrder - b.data.seriesOrder;
+  }
+  return a.data.series.localeCompare(b.data.series);
+});
+---
+
+<BaseLayout
+  title="100 Researched Articles — ArthaAtlas P2P Lending Library"
+  description="Comprehensive research library covering 100 peer-reviewed articles across 10 series on Indian P2P lending, credit underwriting, defaults, XIRR, and taxation."
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-10 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        The Complete Library &bull; 100 Published Modules
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        Peer-to-Peer Lending Research Archive
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        100 deeply researched educational guides addressing every dimension of Indian marketplace lending, credit risk underwriting, legal recovery frameworks, and tax liabilities.
+      </p>
+    </div>
+
+    <!-- Client-Side Filter Controls -->
+    <div class="mb-8 p-4 bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <div class="relative w-full sm:flex-1">
+          <input
+            id="article-search"
+            type="text"
+            placeholder="Search by topic, keyword, or law (e.g. 'XIRR', 'Section 56', 'August 2024')..."
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
+        </div>
+
+        <div class="w-full sm:w-auto">
+          <select
+            id="series-filter"
+            class="w-full sm:w-64 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-xs font-semibold focus:outline-none"
+          >
+            <option value="all">All 10 Research Series ({articles.length})</option>
+            {CONTENT_SERIES.map((s) => (
+              <option value={s.slug}>{s.title}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {articles.map((art) => {
+        const cleanSlug = art.id.replace(/\.(md|mdx)$/, '');
+        const seriesObj = CONTENT_SERIES.find((s) => s.slug === art.data.series);
+        return (
+          <article
+            class="article-card flex flex-col justify-between bg-white dark:bg-navy-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/40 transition-all shadow-sm group"
+            data-title={art.data.title.toLowerCase()}
+            data-series={art.data.series}
+            data-tags={(art.data.tags || []).join(' ').toLowerCase()}
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+                  {seriesObj ? seriesObj.title : art.data.series} &bull; #{art.data.seriesOrder}
+                </span>
+                <span class="text-[11px] text-slate-400 font-mono">
+                  {art.data.readingTimeMinutes}m read
+                </span>
+              </div>
+
+              <h2 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug mb-2">
+                <a href={formatUrl(`/articles/${cleanSlug}`)}>
+                  {art.data.title}
+                </a>
+              </h2>
+
+              <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                {art.data.description}
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold">
+              <a
+                href={formatUrl(`/articles/${cleanSlug}`)}
+                class="text-brand-600 dark:text-brand-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1"
+              >
+                Read Research &rarr;
+              </a>
+              <span class="text-[10px] text-slate-400 font-mono">
+                {new Date(art.data.pubDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+              </span>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- Empty Filter Notice -->
+    <div id="no-results" class="hidden text-center py-16 text-slate-500 dark:text-slate-400">
+      <div class="text-3xl mb-2">🔍</div>
+      <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">No matching articles found</h3>
+      <p class="text-xs mt-1">Try searching for other terms or resetting the series filter.</p>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  const searchInput = document.getElementById('article-search');
+  const seriesFilter = document.getElementById('series-filter');
+  const cards = document.querySelectorAll('.article-card');
+  const noResults = document.getElementById('no-results');
+
+  function filterArticles() {
+    const query = searchInput?.value.toLowerCase().trim() || '';
+    const selectedSeries = seriesFilter?.value || 'all';
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const title = card.getAttribute('data-title') || '';
+      const series = card.getAttribute('data-series') || '';
+      const tags = card.getAttribute('data-tags') || '';
+
+      const matchesSearch = !query || title.includes(query) || tags.includes(query);
+      const matchesSeries = selectedSeries === 'all' || series === selectedSeries;
+
+      if (matchesSearch && matchesSeries) {
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (noResults) {
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+  }
+
+  searchInput?.addEventListener('input', filterArticles);
+  seriesFilter?.addEventListener('change', filterArticles);
+</script>

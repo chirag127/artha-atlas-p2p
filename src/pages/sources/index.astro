@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CENTRAL_SOURCES } from '../../data/sources';
+---
+
+<BaseLayout
+  title="Official Sources & Legal Citations Register — ArthaAtlas P2P"
+  description="Verified primary source register: Official RBI circulars, Master Directions, Income Tax Act provisions, Supreme Court judgments, and statutory consumer protection acts."
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Hero Header -->
+    <div class="mb-10 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        Research Integrity & Verified Sources
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        Central Sources & Citation Register
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        Every claim, regulatory limit, and tax interpretation on ArthaAtlas P2P is anchored to verified primary legal and statutory documents.
+      </p>
+    </div>
+
+    <!-- Sources Grid -->
+    <div class="space-y-6">
+      {CENTRAL_SOURCES.map((source) => (
+        <div class="bg-white dark:bg-navy-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span class={`px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider ${
+              source.category === 'RBI Regulation' ? 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900' :
+              source.category === 'Taxation' ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900' :
+              'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900'
+            }`}>
+              {source.category}
+            </span>
+            <span class="text-[11px] text-slate-400 font-mono">
+              Retrieved: {source.retrievedDate}
+            </span>
+          </div>
+
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug">
+            <a href={source.url} target="_blank" rel="noopener noreferrer" class="hover:text-brand-600 dark:hover:text-brand-400 hover:underline">
+              {source.title} &rarr;
+            </a>
+          </h2>
+
+          <div class="text-xs text-slate-600 dark:text-slate-400 mb-4 space-y-1">
+            <div><strong>Publisher:</strong> {source.publisher}</div>
+            <div><strong>Published Date:</strong> {source.publishedDate} &bull; <strong>Applicable Period:</strong> {source.applicablePeriod}</div>
+            {source.notes && (
+              <div class="italic text-slate-500">{source.notes}</div>
+            )}
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+              Key Statutory Claims Supported:
+            </div>
+            <ul class="list-disc list-inside text-xs text-slate-600 dark:text-slate-400 space-y-1 leading-relaxed">
+              {source.claimsSupported.map((claim) => (
+                <li>{claim}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>

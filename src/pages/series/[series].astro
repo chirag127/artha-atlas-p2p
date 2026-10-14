@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CONTENT_SERIES, type SeriesInfo } from '../../data/taxonomy';
+import { formatUrl } from '../../lib/urls';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allArticles = await getCollection('articles');
+  return CONTENT_SERIES.map((series) => {
+    const articles = allArticles
+      .filter((a) => a.data.series === series.slug)
+      .sort((a, b) => a.data.seriesOrder - b.data.seriesOrder);
+
+    return {
+      params: { series: series.slug },
+      props: { series, articles },
+    };
+  });
+}
+
+interface Props {
+  series: SeriesInfo;
+  articles: any[];
+}
+
+const { series, articles } = Astro.props;
+---
+
+<BaseLayout
+  title={`${series.title} — Research Series | ArthaAtlas P2P`}
+  description={series.description}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-6 font-medium">
+      <a href={formatUrl('/')} class="hover:text-brand-600 dark:hover:text-brand-400">Home</a>
+      <span>/</span>
+      <a href={formatUrl('/series')} class="hover:text-brand-600 dark:hover:text-brand-400">Series</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200">{series.title}</span>
+    </nav>
+
+    <!-- Series Header -->
+    <div class="mb-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900">
+          Thematic Series &bull; {series.category}
+        </span>
+        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-200/60 dark:border-emerald-800/60">
+          {articles.length} Modules Published
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
+        {series.title}
+      </h1>
+
+      <p class="text-base text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+        {series.description}
+      </p>
+    </div>
+
+    <!-- Sequential Module Cards -->
+    <div class="space-y-4">
+      {articles.map((art) => {
+        const cleanSlug = art.id.replace(/\.(md|mdx)$/, '');
+        return (
+          <div class="bg-white dark:bg-navy-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/40 transition-all shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-mono font-bold text-slate-700 dark:text-slate-300 text-sm flex-shrink-0 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                #{art.data.seriesOrder}
+              </div>
+              <div>
+                <h2 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug">
+                  <a href={formatUrl(`/articles/${cleanSlug}`)}>
+                    {art.data.title}
+                  </a>
+                </h2>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                  {art.data.description}
+                </p>
+                <div class="flex items-center gap-3 mt-2 text-[11px] text-slate-400 font-medium">
+                  <span>⏱️ {art.data.readingTimeMinutes} min read</span>
+                  <span>&bull;</span>
+                  <span>Published {new Date(art.data.pubDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:self-center flex-shrink-0">
+              <a
+                href={formatUrl(`/articles/${cleanSlug}`)}
+                class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 group-hover:bg-brand-600 group-hover:text-white transition-all border border-slate-200 dark:border-slate-700"
+              >
+                Read Module &rarr;
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CONTENT_SERIES } from '../../data/taxonomy';
+import { formatUrl } from '../../lib/urls';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+---
+
+<BaseLayout
+  title="10 Research Series Taxonomy — ArthaAtlas P2P"
+  description="Explore the complete 10-series taxonomy covering peer-to-peer lending fundamentals, RBI regulatory directions, credit analysis, XIRR mathematics, and taxation."
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    
+    <div class="mb-12 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900 mb-3">
+        Structured Content Taxonomy
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        10 Comprehensive Research Series
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2">
+        A structured educational roadmap organized into 10 deep thematic series, each containing 10 rigorous, peer-reviewed modules.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {CONTENT_SERIES.map((series, idx) => {
+        const seriesArticles = allArticles.filter((a) => a.data.series === series.slug);
+        return (
+          <div class="bg-white dark:bg-navy-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/40 transition-all shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  Series {idx + 1} of 10
+                </span>
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-200/60 dark:border-emerald-800/60">
+                  {seriesArticles.length} / 10 Modules Published
+                </span>
+              </div>
+
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                <a href={formatUrl(`/series/${series.slug}`)} class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  {series.title}
+                </a>
+              </h2>
+
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                {series.description}
+              </p>
+
+              <!-- Mini Article List Preview -->
+              <div class="space-y-2 mb-6">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Included Modules:</div>
+                {seriesArticles.slice(0, 4).map((art) => (
+                  <div class="text-xs text-slate-700 dark:text-slate-300 flex items-center gap-2 truncate">
+                    <span class="text-brand-500 font-mono text-[10px]">#{art.data.seriesOrder}</span>
+                    <a href={formatUrl(`/articles/${art.id.replace(/\.(md|mdx)$/, '')}`)} class="hover:underline truncate">
+                      {art.data.title}
+                    </a>
+                  </div>
+                ))}
+                {seriesArticles.length > 4 && (
+                  <div class="text-[11px] text-slate-500 italic">
+                    + {seriesArticles.length - 4} more modules in this series...
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <a
+                href={formatUrl(`/series/${series.slug}`)}
+                class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:translate-x-0.5 transition-transform inline-flex items-center gap-1"
+              >
+                Explore Complete Series &rarr;
+              </a>
+              <span class="text-[11px] text-slate-400">Category: {series.category}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</BaseLayout>
